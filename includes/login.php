@@ -10,7 +10,7 @@ if(isset($_POST['login'])){
     echo $username = $user->escape_string($_POST['username']);
     echo $password = $user->escape_string($_POST['password']);
 
-    die();
+//    die();
 
     $auth = $user->check_login($username, $password);
 
