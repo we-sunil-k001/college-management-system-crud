@@ -20,8 +20,7 @@ class DbConnection{
             }
             else
             {
-                echo 'Connection established successfull!';
-                exit;
+                // echo 'Connection established successfull..';
             }
         }
 
