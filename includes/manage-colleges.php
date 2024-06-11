@@ -27,6 +27,7 @@
                             <thead>
                             <tr>
                                 <th style="width: 10%">S.no </th>
+                                <th style="width: 5%">Preview </th>
                                 <th style="width: 20%">College Name</th>
                                 <th style="width: 10%">Phone No.</th>
                                 <th>Address</th>
@@ -41,12 +42,18 @@
                                 //fetch user data
                                 $sql = "SELECT * FROM `college` WHERE `created_by` = '$admin_id'";
                                 $result = $user->get_All_College($sql);
+                                $count = 1;
 
                                     foreach($result as $row)
                                     {
                                         ?>
                                         <tr>
-                                            <td class="align-middle"><?php echo $row['name']; ?></td>
+                                            <td class="align-middle"><?php echo $count; ?></td>
+                                            <td class="align-middle">
+                                                <img src="uploaded_college_images/<?= $row['image_url']?>" id="product-img" class="" style="height:50px; width:80px" alt="<?php
+                                                $alt= str_replace(' ', '-', ( $row['image_url']));
+                                                echo $alt?>">
+                                            </td>
                                             <td class="align-middle"><?php echo $row['name']; ?></td>
                                             <td class="align-middle"><?php echo $row['phone']; ?></td>
                                             <td class="align-middle"><?php echo $row['address']; ?></td>
@@ -56,6 +63,7 @@
                                         </tr>
 
                                         <?php
+                                        $count++;
                                     }
                                     ?>
 

@@ -1,3 +1,16 @@
+<?php
+
+//Generating random code
+function random_strings($length_of_string)
+{
+    $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';         // String of all alphanumeric character
+    return substr(str_shuffle($str_result),0, $length_of_string);       // Shuffle the $str_result and returns substring of specified length
+}
+
+$college_id =  "Col".random_strings(8);         // This function will generate Random string of length 8
+
+?>
+
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -20,7 +33,7 @@
                         <h5 class="card-title">Add New College</h5>
 
                         <!-- Floating Labels Form -->
-                        <form class="row g-3" method="POST" action="includes/function.php">
+                        <form class="row g-3" method="POST" action="includes/function.php" enctype="multipart/form-data">
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="college_name" id="college_name"
@@ -28,10 +41,18 @@
                                     <label for="floatingName">College Name</label>
                                 </div>
                             </div>
+
                             <div class="col-md-12 d-none">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="created_by" id="created_by"
                                            placeholder="" value="<?=$admin_id?>" required readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 d-none">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="college_id" id="college_id"
+                                           placeholder="" value="<?=$college_id?>" required readonly>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -53,7 +74,7 @@
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="file" class="form-control" name="upload_main_image" id="upload_main_image"
-                                           placeholder="Your Email" required>
+                                          required>
                                     <label for="floatingTextarea" class="mb-4">Media (Max. size, 500kb png/jpg/jpeg) </label>
                                 </div>
                             </div>

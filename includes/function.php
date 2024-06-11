@@ -45,11 +45,20 @@ class User extends DbConnection{
     }
 
     // Method to insert college data into the database
-    public function insert_College($college_name, $phone, $address, $created_by) {
-        $query = "INSERT INTO `college` (`name`, `phone`, `address`, `created_by`,`status`) VALUES ('$college_name', '$phone', '$address', '$created_by','1')";
+    public function insert_College($college_id, $college_name, $phone, $address, $created_by) {
+        $query = "INSERT INTO `college` (`college_id`,`name`, `phone`, `address`, `created_by`,`status`) VALUES ('$college_id','$college_name', '$phone', '$address', '$created_by','1')";
         $stmt = $this->connection->prepare($query);
 
         return $stmt->execute();
+    }
+
+
+    // Add College image
+    public function add_college_Image($media, $college_id) {
+        $query_add_image = "UPDATE `college` SET `image_url`='$media' WHERE `college_id`='$college_id'";
+        $run_add_image = $this->connection->prepare($query_add_image);
+
+        return $run_add_image->execute();
     }
 }
 
@@ -58,19 +67,20 @@ class User extends DbConnection{
 
 if(isset($_POST['add_college'])){
 
+    $college_id = $_POST['college_id'];
     $college_name = $_POST['college_name'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $created_by = $_POST['created_by'];
 
     $user = new User();
-    $run = $user->insert_College($college_name, $phone, $address, $created_by);
+    $run = $user->insert_College($college_id,$college_name, $phone, $address, $created_by);
 
     if($run){
 
         //*************************************************
         //upload college Image
-        $filename = $_FILES["upload_main_image"]["name"];
+        echo $filename = $_FILES["upload_main_image"]["name"];
         $tempname = $_FILES["upload_main_image"]["tmp_name"];
         $upload_dir = "../uploaded_college_images/";
         $filepath = $upload_dir.$filename;
@@ -88,13 +98,10 @@ if(isset($_POST['add_college'])){
             // Now let's move the uploaded image into the folder: image
             if (move_uploaded_file($tempname, $filepath))
             {
-                $run_image = $user->add_college_Image($college_name, $phone, $address, $created_by);
+                $run_image = $user->add_college_Image($file_name, $college_id);
                 if($run_image)
                 {
-                            echo "<script>
-                                    alert('College Added successfully.');
-                                    window.location.href='../index.php?colleges';
-                                </script> ";
+                      echo $run_image;     // alert will run at the end
                 }
 
             }
@@ -102,7 +109,6 @@ if(isset($_POST['add_college'])){
             {
                 echo"<script>
                         alert('Failed to Upload Image, Please try again!');
-                        window.location.href='../index.php?colleges';
                     </script>";
 
             }
@@ -115,41 +121,29 @@ if(isset($_POST['add_college'])){
             if (move_uploaded_file($tempname, $filepath))
             {
 
-                $query="INSERT INTO `practice_area`( `sequence`,`title`, `slug`, `content`, `cover_image`) VALUES ('99999','$title','$slug','$content', '$filename')";
-
-                $run=mysqli_query($db,$query);
-
-                if($run)
+                $run_image = $user->add_college_Image($filename, $college_id);
+                if($run_image)
                 {
-                    // header('location:../index.php?all-staff');
-                    echo"<script>
-                            alert('Practice Area Added successfully.');
-                            window.location.href = '../index.php?manage_practice_area';
-                        </script>";
-
+                    echo $run_image; // alert will run at the end
                 }
-                else
-                {
-                    echo"<script>
-                            alert('Processing failed!');
-                            window.history.back();
-                        </script>";
-                }
-
 
             }
             else
             {
                 echo"<script>
                         alert('Failed to Upload Image, Please try again!');
-                        window.history.back();
                     </script>";
-
             }
         }
 
 
+        echo "<script>
+                                    alert('College Added successfully.');
+                                    window.location.href='../index.php?colleges';
+                                </script> ";
+
     }
+
     else{
         echo "  <script>
                     alert('Something went wrong! Please try again');
