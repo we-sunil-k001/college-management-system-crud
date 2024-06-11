@@ -3,7 +3,7 @@
 session_start();
 
 //redirect if logged in
-if(isset($_SESSION['admin'])){
+if(isset($_SESSION['user'])){
     header('location:index.php');
 }
 ?>

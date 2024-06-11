@@ -8,8 +8,8 @@ $user = new User();
 
 if(isset($_POST['login'])){
 
-    echo $username = $_POST['username'];
-    echo $password = $_POST['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
 
     $auth = $user->check_login($username, $password);
@@ -19,7 +19,7 @@ if(isset($_POST['login'])){
         header('location:../login.php');
     }
     else{
-        $_SESSION['admin'] = $auth;
+        $_SESSION['user'] = $auth;
         header('location:../index.php');
     }
 }

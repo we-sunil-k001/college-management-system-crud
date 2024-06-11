@@ -1,11 +1,11 @@
 <?php
 session_start();
 //return to login if not logged in
-if (!isset($_SESSION['admin']) ||(trim ($_SESSION['admin']) == '')){
+if (!isset($_SESSION['user']) ||(trim ($_SESSION['user']) == '')){
     header('location:login.php');
 }
 
-$admin_id = $_SESSION['admin'];
+$admin_id = $_SESSION['user'];
 
 include_once('includes/function.php');
 
@@ -206,9 +206,14 @@ if(isset($_GET['dashboard']))
 ////////////////////////////////////////////////////////////////////////////////////////////
 /* College */
 
-if(isset($_GET['colleges']))
+elseif(isset($_GET['colleges']))
 {
     include('includes/manage-colleges.php');
+}
+
+elseif(isset($_GET['add-college']))
+{
+    include('includes/add-college.php');
 }
 
 

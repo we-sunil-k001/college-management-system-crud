@@ -18,7 +18,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="text-end"><button class="btn btn-md btn-success my-3 px-4" onclick="window.location.href('index.php')">Add New</button></div>
+                        <div class="text-end"><button class="btn btn-md btn-success my-3 px-4" onclick="window.location.href = 'index.php?add-college'">Add New</button></div>
 
 
 
@@ -53,7 +53,6 @@
                                             <td class="align-middle"><?php echo $row['status']; ?></td>
                                             <td class="align-middle"><a href="#" class="text-light  bg-success px-2 rounded p-1 "><i class="bi bi-pencil-square"></i> </a></td>
                                             <td class="align-middle"><a href="#" class="text-light bg-danger px-2 rounded p-1 "><i class="bi bi-trash"></i> </a></td>
-
                                         </tr>
 
                                         <?php
