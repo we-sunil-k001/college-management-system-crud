@@ -67,10 +67,88 @@ if(isset($_POST['add_college'])){
     $run = $user->insert_College($college_name, $phone, $address, $created_by);
 
     if($run){
-        echo "  <script>  
-                    alert('College Added successfully.');
-                    window.location.href='../index.php?colleges';
-                </script> ";
+
+        //*************************************************
+        //upload college Image
+        $filename = $_FILES["upload_main_image"]["name"];
+        $tempname = $_FILES["upload_main_image"]["tmp_name"];
+        $upload_dir = "../uploaded_college_images/";
+        $filepath = $upload_dir.$filename;
+
+
+        // If file with name already exist then append time in
+        // front of name of the file to avoid overwriting of file
+        if(file_exists($filepath))
+        {
+            $filepath = $upload_dir.time().$filename;
+
+            $file_name = time().$filename;
+
+
+            // Now let's move the uploaded image into the folder: image
+            if (move_uploaded_file($tempname, $filepath))
+            {
+                $run_image = $user->add_college_Image($college_name, $phone, $address, $created_by);
+                if($run_image)
+                {
+                            echo "<script>
+                                    alert('College Added successfully.');
+                                    window.location.href='../index.php?colleges';
+                                </script> ";
+                }
+
+            }
+            else
+            {
+                echo"<script>
+                        alert('Failed to Upload Image, Please try again!');
+                        window.location.href='../index.php?colleges';
+                    </script>";
+
+            }
+
+        }
+
+        else
+        {
+            // Now let's move the uploaded image into the folder: image
+            if (move_uploaded_file($tempname, $filepath))
+            {
+
+                $query="INSERT INTO `practice_area`( `sequence`,`title`, `slug`, `content`, `cover_image`) VALUES ('99999','$title','$slug','$content', '$filename')";
+
+                $run=mysqli_query($db,$query);
+
+                if($run)
+                {
+                    // header('location:../index.php?all-staff');
+                    echo"<script>
+                            alert('Practice Area Added successfully.');
+                            window.location.href = '../index.php?manage_practice_area';
+                        </script>";
+
+                }
+                else
+                {
+                    echo"<script>
+                            alert('Processing failed!');
+                            window.history.back();
+                        </script>";
+                }
+
+
+            }
+            else
+            {
+                echo"<script>
+                        alert('Failed to Upload Image, Please try again!');
+                        window.history.back();
+                    </script>";
+
+            }
+        }
+
+
     }
     else{
         echo "  <script>

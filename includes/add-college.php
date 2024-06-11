@@ -50,6 +50,14 @@
                                 </div>
                             </div>
 
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="file" class="form-control" name="upload_main_image" id="upload_main_image"
+                                           placeholder="Your Email" required>
+                                    <label for="floatingTextarea" class="mb-4">Media (Max. size, 500kb png/jpg/jpeg) </label>
+                                </div>
+                            </div>
+
                             <div class="text-center">
                                 <button type="submit" name="add_college" class="btn btn-primary w-100">Submit</button>
                             </div>
