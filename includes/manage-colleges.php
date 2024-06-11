@@ -18,7 +18,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="text-end"><button class="btn btn-md btn-success my-3 px-4">Add New</button></div>
+                        <div class="text-end"><button class="btn btn-md btn-success my-3 px-4" onclick="window.location.href('index.php')">Add New</button></div>
 
 
 
