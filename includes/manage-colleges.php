@@ -46,6 +46,7 @@
 
                                     foreach($result as $row)
                                     {
+                                        $college_id = $row['college_id'];
                                         ?>
                                         <tr>
                                             <td class="align-middle"><?php echo $count; ?></td>
@@ -59,7 +60,7 @@
                                             <td class="align-middle"><?php echo $row['address']; ?></td>
                                             <td class="align-middle"><?php echo $row['status']; ?></td>
                                             <td class="align-middle"><a href="#" class="text-light  bg-success px-2 rounded p-1 "><i class="bi bi-pencil-square"></i> </a></td>
-                                            <td class="align-middle"><a href="#" class="text-light bg-danger px-2 rounded p-1 "><i class="bi bi-trash"></i> </a></td>
+                                            <td class="align-middle"><a href="includes/function.php?delete_college=<?=$college_id?>" class="text-light bg-danger px-2 rounded p-1 "><i class="bi bi-trash"></i> </a></td>
                                         </tr>
 
                                         <?php

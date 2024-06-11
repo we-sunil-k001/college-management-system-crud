@@ -44,6 +44,7 @@ class User extends DbConnection{
         return $rows;
     }
 
+
     // Method to insert college data into the database
     public function insert_College($college_id, $college_name, $phone, $address, $created_by) {
         $query = "INSERT INTO `college` (`college_id`,`name`, `phone`, `address`, `created_by`,`status`) VALUES ('$college_id','$college_name', '$phone', '$address', '$created_by','1')";
@@ -60,11 +61,47 @@ class User extends DbConnection{
 
         return $run_add_image->execute();
     }
+
+
+    // Delete College
+    public function delete_college($college_id) {
+//        $query = "DELETE FROM `college` WHERE `college_id`='$college_id'";
+//        $run = $this->connection->prepare($query);
+//
+//        //fetch image url
+//        if($run->execute())
+//        {
+//            $query_image = "SELECT * FROM `college` WHERE `college_id`='$college_id'";
+//            $run_image = $this->connection->prepare($query);
+//            $row = $run_image->fetch_array();
+//            return $row['image_url'];
+//        }
+
+
+        $sql = "SELECT * FROM `college` WHERE `college_id` = '$college_id'";
+        $query = $this->connection->query($sql);
+
+        if($query->num_rows > 0){
+            $row = $query->fetch_array();
+
+            $query = "DELETE FROM `college` WHERE `college_id`='$college_id'";
+            $run = $this->connection->prepare($query);
+            if($run->execute())
+            {
+                return $row['image_url'];
+            }
+
+
+        }
+    }
+
+
 }
+// Class ends above
 
 
-
-
+//=========================================================================================================================
+// Add college
 if(isset($_POST['add_college'])){
 
     $college_id = $_POST['college_id'];
@@ -147,6 +184,30 @@ if(isset($_POST['add_college'])){
     else{
         echo "  <script>
                     alert('Something went wrong! Please try again');
+                    window.location.href='../index.php?colleges';
+                </script> ";
+    }
+}
+
+
+//=========================================================================================================================
+// Delete college
+// Add college
+if(isset($_GET['delete_college'])) {
+
+    $college_id = $_GET['delete_college'];
+
+    $user = new User();
+    $run = $user->delete_college($college_id);  //calling function
+
+    if($run)
+    {
+        $image_url = $run;
+
+        unlink('../uploaded_college_images/'.$image_url);
+
+        echo "  <script>
+                    alert('College Deleted Successfully.');
                     window.location.href='../index.php?colleges';
                 </script> ";
     }

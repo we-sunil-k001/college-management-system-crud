@@ -14,7 +14,7 @@ $college_id =  "Col".random_strings(8);         // This function will generate R
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Data Tables</h1>
+        <h1>Add New College</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
@@ -30,10 +30,10 @@ $college_id =  "Col".random_strings(8);         // This function will generate R
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Add New College</h5>
+<!--                        <h5 class="card-title"></h5>-->
 
                         <!-- Floating Labels Form -->
-                        <form class="row g-3" method="POST" action="includes/function.php" enctype="multipart/form-data">
+                        <form class="row g-3 pt-4" method="POST" action="includes/function.php" enctype="multipart/form-data">
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="college_name" id="college_name"
