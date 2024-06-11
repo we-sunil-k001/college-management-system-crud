@@ -31,6 +31,18 @@ class User extends DbConnection{
         return $row;
     }
 
+    public function get_All_College($sql){
+        $query = $this->connection->query($sql);
+        $rows = array();
+
+        // Fetch all rows from the result set
+        while ($row = $query->fetch_assoc()) {
+            $rows[] = $row; // Add each row to the array
+        }
+
+        return $rows;
+    }
+
 
 
 }
