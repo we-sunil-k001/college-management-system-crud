@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0);
 //return to login if not logged in
 if (!isset($_SESSION['user']) ||(trim ($_SESSION['user']) == '')){
     header('location:login.php');
@@ -214,6 +215,12 @@ elseif(isset($_GET['colleges']))
 elseif(isset($_GET['add-college']))
 {
     include('includes/add-college.php');
+}
+
+
+elseif(isset($_GET['edit_college']))
+{
+    include('includes/edit-college.php');
 }
 
 

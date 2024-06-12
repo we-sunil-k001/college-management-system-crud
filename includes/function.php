@@ -22,14 +22,19 @@ class User extends DbConnection{
         }
     }
 
+    // Fetching all data and using in multiple pages
     public function details($sql){
-
         $query = $this->connection->query($sql);
 
-        $row = $query->fetch_array();
-
-        return $row;
+        if($query->num_rows > 0){
+            $row = $query->fetch_array();
+            return $row;
+        }
+        else{
+            return false;
+        }
     }
+
 
     //Fetch all college data
     public function get_All_College($sql){
@@ -54,6 +59,15 @@ class User extends DbConnection{
     }
 
 
+    // Method to update college data into the database
+    public function update_College($college_id, $college_name, $phone, $address) {
+        $query = "UPDATE `college` SET `name`='$college_name',`address`='$address',`phone`='$phone' WHERE `college_id`='$college_id' ";
+        $stmt = $this->connection->prepare($query);
+
+        return $stmt->execute();
+    }
+
+
     // Add College image
     public function add_college_Image($media, $college_id) {
         $query_add_image = "UPDATE `college` SET `image_url`='$media' WHERE `college_id`='$college_id'";
@@ -65,18 +79,6 @@ class User extends DbConnection{
 
     // Delete College
     public function delete_college($college_id) {
-//        $query = "DELETE FROM `college` WHERE `college_id`='$college_id'";
-//        $run = $this->connection->prepare($query);
-//
-//        //fetch image url
-//        if($run->execute())
-//        {
-//            $query_image = "SELECT * FROM `college` WHERE `college_id`='$college_id'";
-//            $run_image = $this->connection->prepare($query);
-//            $row = $run_image->fetch_array();
-//            return $row['image_url'];
-//        }
-
 
         $sql = "SELECT * FROM `college` WHERE `college_id` = '$college_id'";
         $query = $this->connection->query($sql);
@@ -93,6 +95,12 @@ class User extends DbConnection{
 
 
         }
+    }
+
+
+    // Remove College image
+    public function remove_college_image($sql) {
+        return $query = $this->connection->query($sql);
     }
 
 
@@ -117,7 +125,7 @@ if(isset($_POST['add_college'])){
 
         //*************************************************
         //upload college Image
-        echo $filename = $_FILES["upload_main_image"]["name"];
+        $filename = $_FILES["upload_main_image"]["name"];
         $tempname = $_FILES["upload_main_image"]["tmp_name"];
         $upload_dir = "../uploaded_college_images/";
         $filepath = $upload_dir.$filename;
@@ -192,7 +200,6 @@ if(isset($_POST['add_college'])){
 
 //=========================================================================================================================
 // Delete college
-// Add college
 if(isset($_GET['delete_college'])) {
 
     $college_id = $_GET['delete_college'];
@@ -212,3 +219,147 @@ if(isset($_GET['delete_college'])) {
                 </script> ";
     }
 }
+
+
+//=========================================================================================================================
+// Update college - Delete college image
+if(isset($_GET['delete_image'])) {
+
+    $college_id = $_GET['delete_image'];
+
+    $user = new User();
+    $sql = "SELECT * FROM `college` WHERE `college_id` = '$college_id'";
+    $row = $user->details($sql);
+
+    $image_url = $row['image_url'];
+
+    $filepath = '../uploaded_college_images/'.$image_url;
+
+    unlink($filepath);   //unlinking the file/image
+
+
+    if (!file_exists($filepath))
+    {
+        $sql = "UPDATE `college` SET `image_url` = '' WHERE `college_id` = '$college_id'";
+        $run = $user->remove_college_image($sql);
+
+        if($run)
+        {
+            echo "<script>
+                    window.history.back();
+                </script> ";
+        }
+
+    }
+
+}
+
+
+
+
+//=========================================================================================================================
+// Update/ Edit college
+if(isset($_POST['edit_college'])){
+    error_reporting(0);
+
+    $college_id = $_POST['college_id'];
+    $college_name = $_POST['college_name'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+
+    $filename = $_FILES["upload_main_image"]["name"];
+    $tempname = $_FILES["upload_main_image"]["tmp_name"];
+    $upload_dir = "../uploaded_college_images/";
+    $filepath = $upload_dir.$filename;
+
+    $user = new User();
+
+    //if form submit without image ==========================================================
+    if(empty($filename))
+    {
+        $run = $user->update_College($college_id,$college_name, $phone, $address);
+        if($run)
+        {
+            echo "<script>
+                                    alert('College Updated successfully.');
+                                    window.location.href='../index.php?colleges';
+                                </script> ";
+        }
+
+    }
+    else
+    {
+        $run = $user->update_College($college_id,$college_name, $phone, $address);
+
+        if($run){
+
+            // If file with name already exist then append time in
+            // front of name of the file to avoid overwriting of file
+            if(file_exists($filepath))
+            {
+                $filepath = $upload_dir.time().$filename;
+
+                $file_name = time().$filename;
+
+
+                // Now let's move the uploaded image into the folder: image
+                if (move_uploaded_file($tempname, $filepath))
+                {
+                    $run_image = $user->add_college_Image($file_name, $college_id);
+                    if($run_image)
+                    {
+                        // echo $run_image;     // alert will run at the end
+                    }
+
+                }
+                else
+                {
+                    echo"<script>
+                        alert('Failed to Upload Image, Please try again!');
+                    </script>";
+
+                }
+
+            }
+
+            else
+            {
+                // Now let's move the uploaded image into the folder: image
+                if (move_uploaded_file($tempname, $filepath))
+                {
+
+                    $run_image = $user->add_college_Image($filename, $college_id);
+                    if($run_image)
+                    {
+                        //  echo $run_image; // alert will run at the end
+                    }
+
+                }
+                else
+                {
+                    echo"<script>
+                        alert('Failed to Upload Image, Please try again!');
+                    </script>";
+                }
+            }
+
+
+            echo "<script>
+                                    alert('College Updated successfully.');
+                                    window.location.href='../index.php?colleges';
+                                </script> ";
+
+        }
+
+        else{
+            echo "  <script>
+                    alert('Something went wrong! Please try again');
+                    window.location.href='../index.php?colleges';
+                </script> ";
+        }
+    }
+
+
+}
+
+
