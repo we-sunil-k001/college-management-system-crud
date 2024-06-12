@@ -36,6 +36,16 @@ class User extends DbConnection{
     }
 
 
+    // Get Total no. of colleges
+    public function total($sql){
+        $query = $this->connection->query($sql);
+
+        return $num_college = $query->num_rows;
+
+    }
+
+
+
     //Fetch all college data
     public function get_All_College($sql){
         $query = $this->connection->query($sql);
