@@ -1,6 +1,12 @@
 <?php
 include_once('db.php');
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../mailer/vendor/autoload.php';
+
+
 class User extends DbConnection{
 
     public function __construct(){
@@ -147,10 +153,33 @@ class User extends DbConnection{
 
     // Delete lecturer data into the database
     public function delete_lecturer($lecturer_id) {
-        $query = "DELETE FROM `lecturer` WHERE `lecturer_id`='$lecturer_id'";
+        $query = "UPDATE `user` SET `password_reset_id`='[value-7]' WHERE `lecturer_id`='$lecturer_id'";
         $run = $this->connection->prepare($query);
 
         return $run->execute();
+    }
+
+
+
+    // Add Password reset ID in user table
+    public function add_password_reset_id($unique_id, $email) {
+
+        $sql = "SELECT * FROM `user` WHERE `email` = '$email'";
+        $query = $this->connection->query($sql);
+
+        if($query->num_rows > 0){
+            $query = "UPDATE `user` SET `password_reset_id`='$unique_id'  WHERE `email`='$email'";
+            $run = $this->connection->prepare($query);
+            if($run->execute())
+            {
+                return 1;
+            }
+
+        }
+        else{
+            return 0;
+        }
+
     }
 
 
@@ -529,14 +558,34 @@ if(isset($_POST['forget_password'])) {
 
     $email = $_POST['email'];
 
-    $user = new User();
-    $run = $user->update_lecturer($first_name, $last_name, $phone, $subject, $lecturer_id);
-
-    if ($run) {
-        echo "<script>
-                alert('Lecturer updated successfully.');
-                window.location.href='../index.php?lecturers';
-            </script>";
+    //Generating random code
+    function random_strings($length_of_string)
+    {
+        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';         // String of all alphanumeric character
+        return substr(str_shuffle($str_result),0, $length_of_string);       // Shuffle the $str_result and returns substring of specified length
     }
 
+    $unique_id =  "Web".random_strings(18);         // This function will generate Random string of length 8
+
+    $user = new User();
+    $run = $user->add_password_reset_id($unique_id, $email);
+
+
+    if ($run < 1)
+    {
+        echo "  <script>
+                    alert('Entered Email: " . $email . " is not registered with us!');
+                    window.location.href='../register.php';
+                </script> ";
+    }
+    else
+    {
+
+        echo "  <script>
+                        window.location.href='../mailer/index.php?email=$email&d=$unique_id';
+                    </script> ";
+
+    }
 }
+
+
