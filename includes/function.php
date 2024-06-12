@@ -133,6 +133,17 @@ class User extends DbConnection{
     }
 
 
+
+
+    // Delete lecturer data into the database
+    public function delete_lecturer($lecturer_id) {
+        $query = "DELETE FROM `lecturer` WHERE `lecturer_id`='$lecturer_id'";
+        $run = $this->connection->prepare($query);
+
+        return $run->execute();
+    }
+
+
 }
 // Class ends above
 
@@ -475,4 +486,25 @@ if(isset($_POST['edit_lecturer'])) {
             </script>";
     }
 
+}
+
+
+
+//=========================================================================================================================
+// Delete college
+if(isset($_GET['delete_lecturer'])) {
+
+    $lecturer_id = $_GET['delete_lecturer'];
+
+    $user = new User();
+    $run = $user->delete_lecturer($lecturer_id);  //calling function
+
+    if($run)
+    {
+
+        echo "  <script>
+                    alert('lecturer Deleted Successfully.');
+                    window.location.href='../index.php?lecturers';
+                </script> ";
+    }
 }

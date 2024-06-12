@@ -57,7 +57,7 @@
                                     <td class="align-middle"><?php echo $row['subject']; ?></td>
 <!--                                    <td class="align-middle">--><?php //echo $row['status']; ?><!--</td>-->
                                     <td class="align-middle text-center"><a href="index.php?edit_lecturer=<?=$lecturer_id?>" class="text-light  bg-success px-2 rounded p-1 "><i class="bi bi-pencil-square"></i> </a></td>
-                                    <td class="align-middle text-center"><a href="includes/function.php?delete_lecturer_id=<?=$lecturer_id?>" class="text-light bg-danger px-2 rounded p-1 " onclick="return  confirm('Are you sure, You want to delete this College? ')"><i class="bi bi-trash"></i> </a></td>
+                                    <td class="align-middle text-center"><a href="includes/function.php?delete_lecturer=<?=$lecturer_id?>" class="text-light bg-danger px-2 rounded p-1 " onclick="return  confirm('Are you sure, You want to delete this Lecturer? ')"><i class="bi bi-trash"></i> </a></td>
                                 </tr>
 
                                 <?php
