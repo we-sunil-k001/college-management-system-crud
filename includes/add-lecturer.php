@@ -7,7 +7,7 @@ function random_strings($length_of_string)
     return substr(str_shuffle($str_result),0, $length_of_string);       // Shuffle the $str_result and returns substring of specified length
 }
 
-$college_id =  "Col".random_strings(8);         // This function will generate Random string of length 8
+$lecturer_id =  "Lec".random_strings(8);         // This function will generate Random string of length 8
 
 ?>
 
@@ -65,6 +65,12 @@ $college_id =  "Col".random_strings(8);         // This function will generate R
                                 </div>
                             </div>
 
+                            <div class="col-md-12 d-none">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="lecturer_id" id="lecturer_id"
+                                           placeholder="" value="<?=$lecturer_id?>" required readonly>
+                                </div>
+                            </div>
 
                             <div class="col-md-6">
                                 <div class="form-floating">

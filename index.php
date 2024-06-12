@@ -239,7 +239,7 @@ elseif(isset($_GET['add-lecturer']))
 }
 
 
-elseif(isset($_GET['lecturer']))
+elseif(isset($_GET['edit_lecturer']))
 {
     include('includes/edit-lecturer.php');
 }

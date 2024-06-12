@@ -55,6 +55,7 @@ $college_id =  "Col".random_strings(8);         // This function will generate R
                                            placeholder="" value="<?=$college_id?>" required readonly>
                                 </div>
                             </div>
+
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="tel" class="form-control" name="phone" id="phone"

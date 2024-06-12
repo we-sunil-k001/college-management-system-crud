@@ -115,10 +115,18 @@ class User extends DbConnection{
 
 
 
-
     // Insert lecturer data into the database
-    public function create_lecturer($first_name, $last_name, $phone, $subject, $created_by) {
-        $query = "INSERT INTO `lecturer`(`first_name`, `last_name`, `subject`, `phone`,`created_by`, `status`) VALUES  ('$first_name','$last_name','$subject','$phone','$created_by','1')";
+    public function create_lecturer($first_name, $last_name, $phone, $subject, $created_by,$lecturer_id) {
+        $query = "INSERT INTO `lecturer`(`lecturer_id`,`first_name`, `last_name`, `subject`, `phone`,`created_by`, `status`) VALUES  ('$lecturer_id','$first_name','$last_name','$subject','$phone','$created_by','1')";
+        $run = $this->connection->prepare($query);
+
+        return $run->execute();
+    }
+
+
+    // Update lecturer data into the database
+    public function update_lecturer($first_name, $last_name, $phone, $subject, $lecturer_id) {
+        $query = "UPDATE `lecturer` SET `first_name`='$first_name',`last_name`='$last_name',`subject`='$subject',`phone`='$phone' WHERE `lecturer_id`='$lecturer_id'";
         $run = $this->connection->prepare($query);
 
         return $run->execute();
@@ -417,7 +425,7 @@ if(isset($_POST['register_user'])) {
 
 
 //=========================================================================================================================
-// Create/register new User
+// Create new lecturer
 if(isset($_POST['add_lecturer'])) {
     error_reporting(0);
 
@@ -426,14 +434,43 @@ if(isset($_POST['add_lecturer'])) {
     $phone = $_POST['phone'];
     $subject = $_POST['subject'];
     $created_by = $_POST['created_by'];
+    $lecturer_id = $_POST['lecturer_id'];
 
 
     $user = new User();
-    $run = $user->create_lecturer($first_name, $last_name, $phone, $subject, $created_by);
+    $run = $user->create_lecturer($first_name, $last_name, $phone, $subject, $created_by, $lecturer_id);
 
     if ($run) {
         echo "<script>
                 alert('Lecturer " . $first_name . " " . $last_name . " created successfully.');
+                window.location.href='../index.php?lecturers';
+            </script>";
+    }
+
+}
+
+
+
+
+//=========================================================================================================================
+// Update lecturer
+if(isset($_POST['edit_lecturer'])) {
+    error_reporting(0);
+
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $phone = $_POST['phone'];
+    $subject = $_POST['subject'];
+    $created_by = $_POST['created_by'];
+    $lecturer_id = $_POST['lecturer_id'];
+
+
+    $user = new User();
+    $run = $user->update_lecturer($first_name, $last_name, $phone, $subject, $lecturer_id);
+
+    if ($run) {
+        echo "<script>
+                alert('Lecturer updated successfully.');
                 window.location.href='../index.php?lecturers';
             </script>";
     }
