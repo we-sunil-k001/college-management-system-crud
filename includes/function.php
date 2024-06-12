@@ -1,12 +1,6 @@
 <?php
 include_once('db.php');
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require '../mailer/vendor/autoload.php';
-
-
 class User extends DbConnection{
 
     public function __construct(){
@@ -180,6 +174,16 @@ class User extends DbConnection{
             return 0;
         }
 
+    }
+
+
+
+    // Change Password
+    public function change_password($email, $password) {
+        $query = "UPDATE `user` SET `password`='$password', `password_reset_id`='' WHERE `email`='$email'";
+        $run = $this->connection->prepare($query);
+
+        return $run->execute();
     }
 
 
@@ -530,7 +534,7 @@ if(isset($_POST['edit_lecturer'])) {
 
 
 //=========================================================================================================================
-// Delete college
+// Delete lecturer
 if(isset($_GET['delete_lecturer'])) {
 
     $lecturer_id = $_GET['delete_lecturer'];
@@ -586,6 +590,40 @@ if(isset($_POST['forget_password'])) {
                     </script> ";
 
     }
+}
+
+
+
+
+//=========================================================================================================================
+// Change Password
+if(isset($_POST['change_password'])) {
+    error_reporting(0);
+
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    if($password !== $confirm_password)
+    {
+        echo "<script>
+                alert('Password and Confirm Password does not match!');
+                window.history.back();
+            </script>";
+        die();
+    }
+
+    $user = new User();
+    $run = $user->change_password($email, $password);
+
+    if ($run) {
+        echo "<script>
+                alert('Password Changed successfully.');
+                window.location.href='../login.php';
+            </script>";
+    }
+
 }
 
 

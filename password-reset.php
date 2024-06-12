@@ -1,4 +1,17 @@
+<?php
+include_once('includes/function.php');
+$password_rest_id = $_GET['id'];
 
+$user = new User();
+
+//fetch user data
+$sql = "SELECT * FROM `user` WHERE `password_reset_id` = '$password_rest_id'";
+$row = $user->details($sql);
+
+$email = $row['email'];
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,6 +87,15 @@
                                         unset($_SESSION['message']);
                                     }
                                     ?>
+
+                                    <div class="col-12 d-none">
+                                        <label for="yourPassword" class="form-label">Password</label>
+                                        <div class="input-group has-validation">
+                                            <span class="input-group-text " id="inputGroupPrepend"><i class="bi bi-key"></i></span>
+                                            <input type="email" value="<?=$email?>" name="email" class="form-control" readonly
+                                                   id="yourPassword" required>
+                                        </div>
+                                    </div>
 
                                     <div class="col-12">
                                         <label for="yourPassword" class="form-label">Password</label>
