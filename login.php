@@ -114,14 +114,19 @@ if(isset($_SESSION['user'])){
                                         <button class="btn btn-primary w-100" name="login" type="submit">Login</button>
                                     </div>
 
+                                    <div class="col-12 text-center">
+                                        <p class=" mb-0">Don't have an account? <a href="register.php">Create one</a></p>
+                                    </div>
+
                                 </form>
+
 
                             </div>
                         </div>
 
-                        <div class="credits">
-                            Developed by <span class="text-primary">Sunil Kumar</span>
-                        </div>
+<!--                        <div class="credits fixed-bottom text-center">-->
+<!--                            Developed by <span class="text-primary">Sunil Kumar</span>-->
+<!--                        </div>-->
 
                     </div>
                 </div>

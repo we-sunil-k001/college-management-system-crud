@@ -6,17 +6,17 @@ if (!isset($_SESSION['user']) ||(trim ($_SESSION['user']) == '')){
     header('location:login.php');
 }
 
-$admin_id = $_SESSION['user'];
+$user_id = $_SESSION['user'];
 
 include_once('includes/function.php');
 
 $user = new User();
 
 //fetch user data
-$sql = "SELECT * FROM `admin` WHERE `id` = '$admin_id'";
+$sql = "SELECT * FROM `user` WHERE `id` = '$user_id'";
 $row = $user->details($sql);
 
-//echo $row['name'];
+$name = $row['first_name']." ".$row['last_name'];
 
 
 ?>
@@ -96,13 +96,13 @@ $row = $user->details($sql);
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2"><?=$row['name'];?></span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2"><?=$name;?></span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                        <a class="dropdown-item d-flex align-items-center" href="#">
                             <i class="bi bi-question-circle"></i>
                             <span>Need Help?</span>
                         </a>

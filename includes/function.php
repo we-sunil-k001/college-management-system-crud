@@ -10,7 +10,7 @@ class User extends DbConnection{
 
     public function check_login($username, $password){
 
-        $sql = "SELECT * FROM `admin` WHERE `username` = '$username' AND `password` = '$password'";
+        $sql = "SELECT * FROM `user` WHERE `email` = '$username' AND `password` = '$password'";
         $query = $this->connection->query($sql);
 
         if($query->num_rows > 0){

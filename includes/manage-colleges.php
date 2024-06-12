@@ -40,7 +40,7 @@
 
                             <?php
                                 //fetch user data
-                                $sql = "SELECT * FROM `college` WHERE `created_by` = '$admin_id'";
+                                $sql = "SELECT * FROM `college` WHERE `created_by` = '$user_id'";
                                 $result = $user->get_All_College($sql);
                                 $count = 1;
 
