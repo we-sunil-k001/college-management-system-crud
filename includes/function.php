@@ -518,3 +518,25 @@ if(isset($_GET['delete_lecturer'])) {
                 </script> ";
     }
 }
+
+
+
+
+//=========================================================================================================================
+// Forget Password
+if(isset($_POST['forget_password'])) {
+    error_reporting(0);
+
+    $email = $_POST['email'];
+
+    $user = new User();
+    $run = $user->update_lecturer($first_name, $last_name, $phone, $subject, $lecturer_id);
+
+    if ($run) {
+        echo "<script>
+                alert('Lecturer updated successfully.');
+                window.location.href='../index.php?lecturers';
+            </script>";
+    }
+
+}
