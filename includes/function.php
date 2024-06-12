@@ -50,7 +50,7 @@ class User extends DbConnection{
     }
 
 
-    // Method to insert college data into the database
+    // Insert college data into the database
     public function insert_College($college_id, $college_name, $phone, $address, $created_by) {
         $query = "INSERT INTO `college` (`college_id`,`name`, `phone`, `address`, `created_by`,`status`) VALUES ('$college_id','$college_name', '$phone', '$address', '$created_by','1')";
         $stmt = $this->connection->prepare($query);
@@ -59,7 +59,7 @@ class User extends DbConnection{
     }
 
 
-    // Method to update college data into the database
+    // Update college data into the database
     public function update_College($college_id, $college_name, $phone, $address) {
         $query = "UPDATE `college` SET `name`='$college_name',`address`='$address',`phone`='$phone' WHERE `college_id`='$college_id' ";
         $stmt = $this->connection->prepare($query);
@@ -102,6 +102,17 @@ class User extends DbConnection{
     public function remove_college_image($sql) {
         return $query = $this->connection->query($sql);
     }
+
+
+
+    // insert college data into the database
+    public function create_user($first_name, $last_name, $phone, $email, $password) {
+        $query = "INSERT INTO `user`(`first_name`, `last_name`, `email`, `phone`, `password`, `status`) VALUES ('$first_name','$last_name','$email','$phone','$password','1')";
+        $run = $this->connection->prepare($query);
+
+        return $run->execute();
+    }
+
 
 
 }
@@ -363,3 +374,29 @@ if(isset($_POST['edit_college'])){
 }
 
 
+
+
+//=========================================================================================================================
+// Create/register new User
+if(isset($_POST['register_user'])) {
+    error_reporting(0);
+
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+
+    $user = new User();
+
+    $run = $user->create_user($first_name, $last_name, $phone, $email, $password);
+
+    if ($run) {
+        echo "<script>
+                                    alert('Registeration successfull.');
+                                    window.location.href='login.php';
+                                </script> ";
+    }
+
+}

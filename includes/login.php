@@ -24,7 +24,7 @@ if(isset($_POST['login'])){
     }
 }
 else{
-    $_SESSION['message'] = 'You need to login first';
+//    $_SESSION['message'] = 'You need to login first';
     header('location:../login.php');
 }
 ?>

@@ -45,7 +45,7 @@ $college_id =  "Col".random_strings(8);         // This function will generate R
                             <div class="col-md-12 d-none">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="created_by" id="created_by"
-                                           placeholder="" value="<?=$admin_id?>" required readonly>
+                                           placeholder="" value="<?=$user_id?>" required readonly>
                                 </div>
                             </div>
 

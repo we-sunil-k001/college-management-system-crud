@@ -84,10 +84,10 @@ if(isset($_SESSION['user'])){
                                     ?>
 
                                     <div class="col-12">
-                                        <label for="yourUsername" class="form-label">Username</label>
+                                        <label for="yourUsername" class="form-label">Email</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person"></i></span>
-                                            <input type="text" name="username" class="form-control" id="yourUsername"
+                                            <input type="email" name="username" class="form-control" id="yourUsername"
                                                    required>
                                             <div class="invalid-feedback">Please enter your username.</div>
                                         </div>
