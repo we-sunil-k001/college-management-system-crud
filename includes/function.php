@@ -105,7 +105,7 @@ class User extends DbConnection{
 
 
 
-    // insert college data into the database
+    // Insert college data into the database
     public function create_user($first_name, $last_name, $phone, $email, $password) {
         $query = "INSERT INTO `user`(`first_name`, `last_name`, `email`, `phone`, `password`, `status`) VALUES ('$first_name','$last_name','$email','$phone','$password','1')";
         $run = $this->connection->prepare($query);
@@ -113,6 +113,16 @@ class User extends DbConnection{
         return $run->execute();
     }
 
+
+
+
+    // Insert lecturer data into the database
+    public function create_lecturer($first_name, $last_name, $phone, $subject, $created_by) {
+        $query = "INSERT INTO `lecturer`(`first_name`, `last_name`, `subject`, `phone`,`created_by`, `status`) VALUES  ('$first_name','$last_name','$subject','$phone','$created_by','1')";
+        $run = $this->connection->prepare($query);
+
+        return $run->execute();
+    }
 
 
 }
@@ -397,6 +407,35 @@ if(isset($_POST['register_user'])) {
                                     alert('Registeration successfull.');
                                     window.location.href='login.php';
                                 </script> ";
+    }
+
+}
+
+
+
+
+
+
+//=========================================================================================================================
+// Create/register new User
+if(isset($_POST['add_lecturer'])) {
+    error_reporting(0);
+
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $phone = $_POST['phone'];
+    $subject = $_POST['subject'];
+    $created_by = $_POST['created_by'];
+
+
+    $user = new User();
+    $run = $user->create_lecturer($first_name, $last_name, $phone, $subject, $created_by);
+
+    if ($run) {
+        echo "<script>
+                alert('Lecturer " . $first_name . " " . $last_name . " created successfully.');
+                window.location.href='../index.php?lecturers';
+            </script>";
     }
 
 }

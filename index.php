@@ -230,7 +230,18 @@ elseif(isset($_GET['edit_college']))
 
 elseif(isset($_GET['lecturers']))
 {
-    include('includes/manage-lecturers.php');
+    include('includes/manage-lecturer.php');
+}
+
+elseif(isset($_GET['add-lecturer']))
+{
+    include('includes/add-lecturer.php');
+}
+
+
+elseif(isset($_GET['lecturer']))
+{
+    include('includes/edit-lecturer.php');
 }
 
 
